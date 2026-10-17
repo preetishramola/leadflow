@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+  --color-paper: #f6f5f1;
+  --color-surface: #ffffff;
+  --color-line: #e4e1da;
+  --color-line-strong: #d3cfc5;
+  --color-ink: #1d1c1a;
+  --color-ink-soft: #45433f;
+  --color-muted: #77736b;
+  --color-faint: #a29e95;
+  --color-hover: #f1efea;
+
+  --color-accent: #2f5d50;
+  --color-accent-soft: #e6efeb;
+  --color-danger: #b4321f;
+  --color-danger-soft: #fbece8;
+  --color-warn: #9a6200;
+  --color-warn-soft: #fbf1dc;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  ::selection {
+    background: #d8e6e0;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 1px;
+  }
+
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    opacity: 0.55;
+    cursor: pointer;
+  }
+}
+
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes panel-in {
+  from { opacity: 0; transform: translate(-50%, -48%) scale(0.98); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.animate-overlay-in {
+  animation: overlay-in 120ms ease-out;
+}
+
+.animate-panel-in {
+  animation: panel-in 140ms ease-out;
+}
