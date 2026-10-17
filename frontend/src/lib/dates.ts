@@ -100,5 +100,6 @@ export function followUpPresets(now: Date): QuickPick[] {
   ];
   // Only offer "later today" while there's still a meaningful chunk of the day left.
   if (isToday(inTwoHours)) picks.unshift({ label: "Later today", date: inTwoHours });
-  return picks;
+  // On Sundays "Next Monday" is tomorrow; keep only the first preset for any given time.
+  return picks.filter((pick, i) => picks.findIndex((other) => other.date.getTime() === pick.date.getTime()) === i);
 }

@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Kbd } from "@/components/ui/Kbd";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
+import { useIsClient } from "@/hooks/useIsClient";
 import { useLeadCounts, useLeadList } from "@/hooks/useLeads";
 import { useNow } from "@/hooks/useNow";
 import { sectionLeads } from "@/lib/dates";
@@ -17,6 +18,7 @@ import { StatusFilter } from "./StatusFilter";
 
 export function LeadsScreen() {
   const now = useNow();
+  const isClient = useIsClient();
   const [status, setStatus] = useState<LeadStatus | null>(null);
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebouncedValue(search);
@@ -49,7 +51,8 @@ export function LeadsScreen() {
       </header>
 
       <div className="mb-5 border-t border-line pt-6">
-        <h1 className="text-xl font-semibold tracking-tight">{format(now, "EEEE, d MMMM")}</h1>
+        {/* The page is prerendered, so only print the date once we know the viewer's clock. */}
+        <h1 className="min-h-7 text-xl font-semibold tracking-tight">{isClient && format(now, "EEEE, d MMMM")}</h1>
         <TodaySummary leads={leads.data} now={now} isFiltered={status !== null || debouncedSearch !== ""} />
       </div>
 
