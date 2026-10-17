@@ -1,3 +1,4 @@
+import re
 from datetime import datetime, timedelta
 from typing import Annotated
 
@@ -24,17 +25,34 @@ def _blank_to_none(value: object) -> object:
     return value
 
 
+def _required(label: str):
+    def check(value: str) -> str:
+        if not value:
+            raise ValueError(f"{label} is required.")
+        return value
+
+    return check
+
+
+_PHONE_RE = re.compile(r"^\+?[0-9()\-.\s]{3,30}$")
+
+
+def _valid_phone(value: str) -> str:
+    if not _PHONE_RE.fullmatch(value):
+        raise ValueError("Use digits, spaces and + ( ) - only.")
+    return value
+
+
 def _not_in_past(value: datetime | None) -> datetime | None:
     if value is not None and value < utcnow() - FOLLOW_UP_GRACE:
         raise ValueError("Follow-up time must be in the future.")
     return value
 
 
-Name = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=120)]
+Name = Annotated[str, StringConstraints(strip_whitespace=True, max_length=120), AfterValidator(_required("Name"))]
 Company = Annotated[str, StringConstraints(strip_whitespace=True, max_length=120)]
-Phone = Annotated[
-    str, StringConstraints(strip_whitespace=True, max_length=30, pattern=r"^\+?[0-9()\-.\s]{3,30}$")
-]
+Phone = Annotated[str, StringConstraints(strip_whitespace=True, max_length=30), AfterValidator(_valid_phone)]
+Note = Annotated[str, StringConstraints(strip_whitespace=True, max_length=2000), AfterValidator(_required("Note"))]
 OptionalCompany = Annotated[Company | None, BeforeValidator(_blank_to_none)]
 OptionalPhone = Annotated[Phone | None, BeforeValidator(_blank_to_none)]
 FollowUp = Annotated[AwareDatetime | None, AfterValidator(_not_in_past)]
@@ -80,7 +98,7 @@ class LeadRead(BaseModel):
 
 
 class DiscussionCreate(BaseModel):
-    note: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=2000)]
+    note: Note
     follow_up_at: FollowUp = None
 
 

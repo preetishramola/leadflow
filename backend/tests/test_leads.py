@@ -203,3 +203,12 @@ def test_list_is_ordered_by_latest_activity(client):
 
     names = [lead["name"] for lead in client.get("/api/leads").json()]
     assert names == ["Older", "Newer"]
+
+
+def test_validation_messages_are_human_readable(client):
+    response = client.post("/api/leads", json={"name": "", "phone": "call me"})
+
+    assert response.json()["errors"] == {
+        "name": "Name is required.",
+        "phone": "Use digits, spaces and + ( ) - only.",
+    }
