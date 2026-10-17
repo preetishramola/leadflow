@@ -212,3 +212,11 @@ def test_validation_messages_are_human_readable(client):
         "name": "Name is required.",
         "phone": "Use digits, spaces and + ( ) - only.",
     }
+
+
+def test_plain_postgres_urls_get_the_psycopg_driver():
+    from app.config import Settings
+
+    for url in ("postgres://u:p@host/db", "postgresql://u:p@host/db"):
+        assert Settings(database_url=url).database_url == "postgresql+psycopg://u:p@host/db"
+    assert Settings(database_url="sqlite:///x.db").database_url == "sqlite:///x.db"

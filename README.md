@@ -74,7 +74,17 @@ To reset the sample data, run `python -m app.seed --reset`.
 cd backend && pytest
 ```
 
-There are 23 API tests. They cover status codes, validation, filtering and search, discussion ordering, list ordering, and the rules for updating follow-ups.
+There are 24 API tests. They cover status codes, validation, filtering and search, discussion ordering, list ordering, and the rules for updating follow-ups.
+
+### Deployment (Render + Vercel)
+
+**Live demo:** _add your Vercel URL here_
+
+1. **API and database on Render:** go to *New → Blueprint* and pick this repo. `render.yaml` creates the `leadflow-api` service and a free Postgres database, and the API seeds the sample data on first boot. Leave `CORS_ORIGINS` blank for now.
+2. **Frontend on Vercel:** go to *Add New → Project* and pick this repo. Set **Root Directory** to `frontend` and add `NEXT_PUBLIC_API_URL=https://<your-render-service>.onrender.com`.
+3. Go back to Render and set `CORS_ORIGINS` to the Vercel URL, e.g. `https://leadflow-xyz.vercel.app`. The service redeploys automatically.
+
+On Render's free plan the API sleeps after 15 minutes without traffic, so the first request after that takes about 30–50 seconds.
 
 ---
 
