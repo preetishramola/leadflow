@@ -78,7 +78,7 @@ There are 24 API tests. They cover status codes, validation, filtering and searc
 
 ### Deployment (Render + Vercel)
 
-**Live demo:** _add your Vercel URL here_
+**Live demo:** https://leadflow-nine-cyan.vercel.app (API: https://leadflow-api-bjys.onrender.com/docs)
 
 1. **API and database on Render:** go to *New → Blueprint* and pick this repo. `render.yaml` creates the `leadflow-api` service and a free Postgres database, and the API seeds the sample data on first boot. Leave `CORS_ORIGINS` blank for now.
 2. **Frontend on Vercel:** go to *Add New → Project* and pick this repo. Set **Root Directory** to `frontend` and add `NEXT_PUBLIC_API_URL=https://<your-render-service>.onrender.com`.
