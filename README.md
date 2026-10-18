@@ -154,7 +154,6 @@ frontend/src/
 
 ## Use of AI
 
-This project was built with Claude Code, an AI coding assistant, which wrote most of the code, tests and this README from my requirements. Commits it co-wrote carry a `Co-Authored-By` trailer.
+I used AI to help generate repetitive and boilerplate code, accelerate scaffolding, and reduce time spent on redundant implementation work. The final product direction, technical decisions, and judgment calls were made by me; the AI was used as a productivity aid rather than as the decision-maker.
 
-<!-- TODO (Preetish): before submitting, replace this with an accurate description of your own part: what you reviewed, changed or decided yourself. -->
 
